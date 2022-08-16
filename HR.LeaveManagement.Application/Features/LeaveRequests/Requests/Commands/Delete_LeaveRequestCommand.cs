@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using HR.LeaveManagement.Application.DTOs.LeaveRequest;
+using HR.LeaveManagement.Application.Responses;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequests.Requests.Commands
 {
-    public class Delete_LeaveRequestCommand : IRequest
+    public class Delete_LeaveRequestCommand : IRequest<BaseCommandResponse>
     {
         public Guid Id { get; set; }
+        public Delete_LeaveRequestDTO LeaveRequestDTO { get; set; }
     }
 }
