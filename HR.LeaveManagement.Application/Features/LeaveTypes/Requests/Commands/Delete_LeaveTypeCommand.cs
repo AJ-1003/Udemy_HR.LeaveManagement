@@ -11,6 +11,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands
 {
     public class Delete_LeaveTypeCommand : IRequest<BaseCommandResponse>
     {
+        public Guid Id { get; set; }
         public LeaveTypeDTO LeaveTypeDTO { get; set; }
     }
 }

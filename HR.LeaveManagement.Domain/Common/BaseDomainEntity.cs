@@ -8,10 +8,10 @@ namespace HR.LeaveManagement.Domain.Common
 {
     public abstract class BaseDomainEntity
     {
-        public Guid Id { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime LastModifiedDate { get; set; }
-        public string LastModifiedBy { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public string CreatedBy { get; set; } = string.Empty;
+        public DateTime LastModifiedDate { get; set; } = DateTime.UtcNow;
+        public string LastModifiedBy { get; set; } = string.Empty;
     }
 }

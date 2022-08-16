@@ -11,6 +11,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveAllocations.Requests.Comm
 {
     public class Delete_LeaveAllocationCommand : IRequest<BaseCommandResponse>
     {
+        public Guid Id { get; set; }
         public Delete_LeaveAllocationDTO LeaveAllocationDTO { get; set; }
     }
 }

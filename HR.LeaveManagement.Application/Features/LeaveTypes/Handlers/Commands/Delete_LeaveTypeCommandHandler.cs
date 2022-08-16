@@ -39,11 +39,11 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
                 response.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
             }
 
-            var leaveType = await _leaveTypeRepository.GetAsync(request.LeaveTypeDTO.Id);
+            var leaveType = await _leaveTypeRepository.GetAsync(request.Id);
 
             if (leaveType == null)
             {
-                throw new NotFoundException(nameof(LeaveType), request.LeaveTypeDTO);
+                throw new NotFoundException(nameof(LeaveType), request.Id);
             }
 
             await _leaveTypeRepository.DeleteAsync(leaveType);
