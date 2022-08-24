@@ -1,8 +1,11 @@
-﻿using HR.LeaveManagement.Application.DTOs.LeaveType;
+﻿using HR.LeaveManagement.Application.Exceptions;
+using HR.LeaveManagement.Application.DTOs.LeaveType;
 using HR.LeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
 using HR.LeaveManagement.Application.Features.LeaveTypes.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using HR.LeaveManagement.Application.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +13,7 @@ namespace HR.LeaveManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LeaveTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -40,7 +44,7 @@ namespace HR.LeaveManagement.API.Controllers
 
         // POST api/<LeaveTypesController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Create_LeaveTypeDTO newLeaveType)
+        public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] Create_LeaveTypeDTO newLeaveType)
         {
             var response = await _mediator.Send(new Create_LeaveTypeCommand
             {
@@ -51,7 +55,7 @@ namespace HR.LeaveManagement.API.Controllers
 
         // PUT api/<LeaveTypesController>/5
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> Put(Guid id, [FromBody] LeaveTypeDTO updatedLeaveType)
+        public async Task<ActionResult<BaseCommandResponse>> Put(Guid id, [FromBody] LeaveTypeDTO updatedLeaveType)
         {
             var response = await _mediator.Send(new Update_LeaveTypeCommand
             {
@@ -63,7 +67,7 @@ namespace HR.LeaveManagement.API.Controllers
 
         // DELETE api/<LeaveTypesController>/5
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult<BaseCommandResponse>> Delete(Guid id)
         {
             var response = await _mediator.Send(new Delete_LeaveTypeCommand
             {

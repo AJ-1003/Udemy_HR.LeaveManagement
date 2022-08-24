@@ -35,6 +35,10 @@ namespace HR.LeaveManagement.Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -100,6 +104,10 @@ namespace HR.LeaveManagement.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RequestingEmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -144,22 +152,22 @@ namespace HR.LeaveManagement.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("56f376eb-2470-4b11-b69a-e8a9320777ef"),
+                            Id = new Guid("d87b8bb8-a449-467c-97bd-b82e00959651"),
                             CreatedBy = "",
-                            DateCreated = new DateTime(2022, 8, 16, 12, 34, 59, 839, DateTimeKind.Utc).AddTicks(5049),
+                            DateCreated = new DateTime(2022, 8, 23, 13, 7, 22, 466, DateTimeKind.Local).AddTicks(3082),
                             DefaultDays = 10,
                             LastModifiedBy = "",
-                            LastModifiedDate = new DateTime(2022, 8, 16, 12, 34, 59, 839, DateTimeKind.Utc).AddTicks(5056),
+                            LastModifiedDate = new DateTime(2022, 8, 23, 13, 7, 22, 466, DateTimeKind.Local).AddTicks(3090),
                             Name = "Annual"
                         },
                         new
                         {
-                            Id = new Guid("44879e15-c0d4-4db2-b065-5a564483ffee"),
+                            Id = new Guid("8068fc8b-417d-45d7-a982-941e987647cd"),
                             CreatedBy = "",
-                            DateCreated = new DateTime(2022, 8, 16, 12, 34, 59, 839, DateTimeKind.Utc).AddTicks(5070),
+                            DateCreated = new DateTime(2022, 8, 23, 13, 7, 22, 466, DateTimeKind.Local).AddTicks(3095),
                             DefaultDays = 32,
                             LastModifiedBy = "",
-                            LastModifiedDate = new DateTime(2022, 8, 16, 12, 34, 59, 839, DateTimeKind.Utc).AddTicks(5071),
+                            LastModifiedDate = new DateTime(2022, 8, 23, 13, 7, 22, 466, DateTimeKind.Local).AddTicks(3095),
                             Name = "Sick"
                         });
                 });

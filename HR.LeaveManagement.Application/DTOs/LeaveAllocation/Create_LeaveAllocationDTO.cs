@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HR.LeaveManagement.Application.DTOs.LeaveAllocation
 {
-    public class Create_LeaveAllocationDTO : ILeaveAllocationDTO
+    public class Create_LeaveAllocationDTO/* : ILeaveAllocationDTO*/
     {
-        public int NumberOfDays { get; set; }
         public Guid LeaveTypeId { get; set; }
-        public int Period { get; set; }
+        //public int NumberOfDays { get; set; } = 1;
+        //public int Period { get; set; } = 2022;
     }
 }

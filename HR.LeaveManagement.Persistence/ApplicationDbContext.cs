@@ -1,5 +1,6 @@
 ﻿using HR.LeaveManagement.Domain;
 using HR.LeaveManagement.Domain.Common;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,10 +26,12 @@ namespace HR.LeaveManagement.Persistence
         {
             foreach (var entry in ChangeTracker.Entries<BaseDomainEntity>())
             {
-                entry.Entity.LastModifiedDate = DateTime.UtcNow;
+                entry.Entity.LastModifiedBy = "SwaggerAPI";
+                entry.Entity.LastModifiedDate = DateTime.Now;
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.DateCreated = DateTime.UtcNow;
+                    entry.Entity.CreatedBy = "SwaggerAPI";
+                    entry.Entity.DateCreated = DateTime.Now;
                 }
             }
 

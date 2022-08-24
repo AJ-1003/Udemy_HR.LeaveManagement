@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.Results;
+using HR.LeaveManagement.Application.DTOs.LeaveType;
+using System.Diagnostics;
 
 namespace HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
 {
@@ -33,17 +36,18 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
             if (!validationResult.IsValid)
             {
                 response.Success = false;
-                response.Message = "Failed to create new record.";
+                response.Message = "Record could not be created.";
                 response.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return response;
             }
 
             var leaveType = _mapper.Map<LeaveType>(request.LeaveTypeDTO);
 
             leaveType = await _leaveTypeRepository.CreateAsync(leaveType);
 
+            response.Id = leaveType.Id;
             response.Success = true;
             response.Message = "Record created.";
-            response.Id = leaveType.Id;
 
             return response;
         }

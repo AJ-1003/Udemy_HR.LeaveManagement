@@ -10,7 +10,6 @@ namespace HR.LeaveManagement.Application.Exceptions
     {
         public BadRequestException(string message) : base(message)
         {
-
         }
     }
 }

@@ -12,7 +12,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Requests.Command
     public class Update_LeaveRequestCommand : IRequest<BaseCommandResponse>
     {
         public Guid Id { get; set; }
-        public Update_LeaveRequestDTO LeaveRequestDTO { get; set; }
+        public Update_LeaveRequestDTO UpdateLeaveRequestDTO { get; set; }
         public Update_LeaveRequestApprovalDTO UpdateLeaveRequestApprovalDTO { get; set; }
     }
 }

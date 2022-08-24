@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HR.LeaveManagement.Application.DTOs.LeaveRequest;
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Commands
 {
@@ -30,28 +31,21 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequests.Handlers.Command
         public async Task<BaseCommandResponse> Handle(Delete_LeaveRequestCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
-            var validator = new Delete_LeaveRequestDTOValidator(_leaveTypeRepository);
-            var validationResult = await validator.ValidateAsync(request.LeaveRequestDTO);
-
-            if (!validationResult.IsValid)
-            {
-                response.Success = false;
-                response.Message = "Failed to delete record!";
-                response.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            }
 
             var leaveRequest = await _leaveRequestRepository.GetAsync(request.Id);
 
             if (leaveRequest == null)
             {
-                throw new NotFoundException(nameof(LeaveRequest), request.Id);
+                response.Success = false;
+                response.Message = "Record was not found.";
+                return response;
             }
 
             await _leaveRequestRepository.DeleteAsync(leaveRequest);
 
+            response.Id = leaveRequest.Id;
             response.Success = true;
             response.Message = "Record deleted.";
-            response.Id = leaveRequest.Id;
 
             return response;
         }

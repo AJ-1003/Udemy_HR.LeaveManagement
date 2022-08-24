@@ -1,5 +1,6 @@
 ﻿using HR.LeaveManagement.Application.DTOs.Common;
 using HR.LeaveManagement.Application.DTOs.LeaveType;
+using HR.LeaveManagement.Application.Models.Identity.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace HR.LeaveManagement.Application.DTOs.LeaveAllocation
 {
     public class LeaveAllocationDTO : BaseDTO
     {
-        public int NumberOfDays { get; set; }
+        public Employee Employee { get; set; }
+        public string EmployeeId { get; set; }
+        public int NumberOfDays { get; set; } = 1;
         public LeaveTypeDTO LeaveType { get; set; }
         public Guid LeaveTypeId { get; set; }
-        public int Period { get; set; }
+        public int Period { get; set; } = 2022;
     }
 }

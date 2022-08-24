@@ -18,9 +18,29 @@ namespace HR.LeaveManagement.Persistence.Repositories
             _context = context;
         }
 
+        public async Task AddAllocations(List<LeaveAllocation> allocations)
+        {
+            await _context.AddRangeAsync(allocations);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> AllocationExists(string userId, Guid leaveTypeId, int period)
+        {
+            return await _context.LeaveAllocations.AnyAsync(la => la.EmployeeId == userId && la.LeaveTypeId == leaveTypeId && la.Period == period);
+        }
+
         public async Task<List<LeaveAllocation>> GetLeaveAllocationsWithDetails()
         {
             var leaveAllocations = await _context.LeaveAllocations
+                .Include(la => la.LeaveType)
+                .ToListAsync();
+            return leaveAllocations;
+        }
+
+        public async Task<List<LeaveAllocation>> GetLeaveAllocationsWithDetails(string userId)
+        {
+            var leaveAllocations = await _context.LeaveAllocations
+                .Where(la => la.EmployeeId == userId)
                 .Include(la => la.LeaveType)
                 .ToListAsync();
             return leaveAllocations;
@@ -34,6 +54,9 @@ namespace HR.LeaveManagement.Persistence.Repositories
             return leaveAllocation;
         }
 
-
+        public async Task<LeaveAllocation> GetUserAllocations(string userId, Guid leaveTypeId)
+        {
+            return await _context.LeaveAllocations.FirstOrDefaultAsync(la => la.EmployeeId == userId && la.LeaveTypeId == leaveTypeId);
+        }
     }
 }

@@ -1,6 +1,9 @@
-﻿using HR.LeaveManagement.Application.DTOs.LeaveRequest;
+﻿using AutoMapper;
+using HR.LeaveManagement.Application.DTOs.LeaveRequest;
+using HR.LeaveManagement.Application.Exceptions;
 using HR.LeaveManagement.Application.Features.LeaveRequests.Requests.Commands;
 using HR.LeaveManagement.Application.Features.LeaveRequests.Requests.Queries;
+using HR.LeaveManagement.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,17 +16,22 @@ namespace HR.LeaveManagement.API.Controllers
     public class LeaveRequestsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public LeaveRequestsController(IMediator mediator)
+        public LeaveRequestsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         // GET: api/<LeaveRequestsController>
         [HttpGet]
-        public async Task<ActionResult<List<LeaveRequestListDTO>>> Get()
+        public async Task<ActionResult<List<LeaveRequestListDTO>>> Get(bool isLoggedInUser = false)
         {
-            var response = await _mediator.Send(new Get_LeaveRequestListRequest());
+            var response = await _mediator.Send(new Get_LeaveRequestListRequest()
+            {
+                IsLoggedInUser = isLoggedInUser
+            });
             return Ok(response);
         }
 
@@ -40,7 +48,7 @@ namespace HR.LeaveManagement.API.Controllers
 
         // POST api/<LeaveRequestsController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Create_LeaveRequestDTO newLeaveRequest)
+        public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] Create_LeaveRequestDTO newLeaveRequest)
         {
             var response = await _mediator.Send(new Create_LeaveRequestCommand
             {
@@ -51,19 +59,19 @@ namespace HR.LeaveManagement.API.Controllers
 
         // PUT api/<LeaveRequestsController>/5
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult> Put(Guid id, [FromBody] Update_LeaveRequestDTO updatedLeaveRequest)
+        public async Task<ActionResult<BaseCommandResponse>> Put(Guid id, [FromBody] Update_LeaveRequestDTO updatedLeaveRequest)
         {
             var response = await _mediator.Send(new Update_LeaveRequestCommand
             {
                 Id = id,
-                LeaveRequestDTO = updatedLeaveRequest
+                UpdateLeaveRequestDTO = updatedLeaveRequest
             });
             return Ok(response);
         }
 
         // PUT api/<LeaveRequestsController>/ChangeApproval/5
         [HttpPut("ChangeApproval/{id:guid}")]
-        public async Task<ActionResult> Put(Guid id, [FromBody] Update_LeaveRequestApprovalDTO updatedLeaveRequestApproval)
+        public async Task<ActionResult<BaseCommandResponse>> Put(Guid id, [FromBody] Update_LeaveRequestApprovalDTO updatedLeaveRequestApproval)
         {
             var response = await _mediator.Send(new Update_LeaveRequestCommand
             {
@@ -75,7 +83,7 @@ namespace HR.LeaveManagement.API.Controllers
 
         // DELETE api/<LeaveRequestsController>/5
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult<BaseCommandResponse>> Delete(Guid id)
         {
             var response = await _mediator.Send(new Delete_LeaveRequestCommand
             {

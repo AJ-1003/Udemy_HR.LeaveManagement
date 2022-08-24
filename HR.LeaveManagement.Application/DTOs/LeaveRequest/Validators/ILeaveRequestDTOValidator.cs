@@ -21,14 +21,14 @@ namespace HR.LeaveManagement.Application.DTOs.LeaveRequest.Validators
                 .LessThan(lr => lr.EndDate).WithMessage("{PropertyName} must be before {ComparisonValue}");
 
             RuleFor(lr => lr.EndDate)
-                .LessThan(lr => lr.StartDate).WithMessage("{PropertyName} must be after {ComparisonValue}");
+                .GreaterThan(lr => lr.StartDate).WithMessage("{PropertyName} must be after {ComparisonValue}");
 
             RuleFor(lr => lr.LeaveTypeId)
                 .NotEmpty()
                 .MustAsync(async (id, token) =>
                 {
                     var leaveTypeExists = await _leaveTypeRepository.Exists(id);
-                    return !leaveTypeExists;
+                    return leaveTypeExists;
                 }).WithMessage("{PropertyName} does not exist!");
         }
     }

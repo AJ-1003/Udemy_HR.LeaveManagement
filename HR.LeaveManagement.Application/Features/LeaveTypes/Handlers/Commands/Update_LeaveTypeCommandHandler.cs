@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HR.LeaveManagement.Application.DTOs.LeaveType;
+using HR.LeaveManagement.Domain;
 
 namespace HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
 {
@@ -32,19 +34,27 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
             if (!validationResult.IsValid)
             {
                 response.Success = false;
-                response.Message = "Record not updated.";
+                response.Message = "Record could not be updated.";
                 response.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return response;
             }
 
             var leaveType = await _leaveTypeRepository.GetAsync(request.LeaveTypeDTO.Id);
+
+            if (leaveType == null)
+            {
+                response.Success = false;
+                response.Message = "Record was not found.";
+                return response;
+            }
 
             _mapper.Map(request.LeaveTypeDTO, leaveType);
 
             await _leaveTypeRepository.UpdateAsync(leaveType);
 
+            response.Id = leaveType.Id;
             response.Success = true;
             response.Message = "Record updated.";
-            response.Id = leaveType.Id;
 
             return response;
         }
